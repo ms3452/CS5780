@@ -2,11 +2,32 @@
 library(tidyverse)
 ```
 
-
+**Part 1A**
 ```{r}
 df <- read.delim('C:/Users/Cole/Documents/GRA_Fall2019/CS5780/HW2/hyp_test_pred.txt', col.names = c('Truth', 'H.A', 'H.B'))
 
-df %>%
-  summarize(mean(abs(H.A - Truth)))
+# Prediction N
+df.sum <- df %>%
+  summarize(H.A.error = sum(abs(H.A - Truth)), H.B.error = sum(abs(H.B - Truth)), m = n())
+
+df.sum %>%
+  summarize(H.A.rate = H.A.error/m, 
+            H.A.rateLow = H.A.error/m - sqrt(log2(2/0.05)/(2 * m)),
+            H.A.rateHigh = H.A.error/m + sqrt(log2(2/0.05)/(2 * m)),
+            H.B.rate = H.B.error/m,
+            H.B.rateLow = H.B.error/m - sqrt(log2(2/0.05)/(2 * m)),
+            H.B.rateHigh = H.B.error/m + sqrt(log2(2/0.05)/(2 * m)))
+```
+
+**Part 1B**
+```{r}
+df.cont <- df %>%
+  mutate(H.A.correct = 1 - abs(H.A - Truth),
+         H.B.correct = 1 - abs(H.B - Truth))
+
+table(df.cont$H.A.correct, df.cont$H.B.correct)
+
+2*(0.5^24)*sum(sapply(1:9, function(k) choose(24, k)))
+pbinom(9, size = 24, prob = 0.5)
 ```
 
