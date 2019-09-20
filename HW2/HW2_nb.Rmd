@@ -4,7 +4,7 @@ library(tidyverse)
 
 **Part 1A**
 ```{r}
-df <- read.delim('C:/Users/Cole/Documents/GRA_Fall2019/CS5780/HW2/hyp_test_pred.txt', col.names = c('Truth', 'H.A', 'H.B'))
+df <- read.delim('hyp_test_pred.txt', col.names = c('Truth', 'H.A', 'H.B'))
 
 # Prediction N
 df.sum <- df %>%
